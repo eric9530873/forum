@@ -33,8 +33,11 @@ app.use(routes)
 
 const handlebarsHelpers = require('./helpers/handlebars-helpers')
 const handlebars = require('express-handlebars')
-app.engine('hbs', handlebars.engine({ defaultLayout: 'main', extname: '.hbs', helpers: handlebarsHelpers }))
+const Handlebars = require('handlebars')
+const { allowInsecurePrototypeAccess } = require('@handlebars/allow-prototype-access')
+app.engine('hbs', handlebars({ extname: '.hbs', helpers: handlebarsHelpers, handlebars: allowInsecurePrototypeAccess(Handlebars) }))
 app.set('view engine', 'hbs')
+
 
 app.listen(PORT, () => {
     console.log(`Example app listening on port ${PORT}`)
