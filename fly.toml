@@ -1,9 +1,9 @@
-# fly.toml app configuration file generated for sparkling-snow-9519 on 2023-04-19T17:23:45+08:00
+# fly.toml app configuration file generated for divine-cherry-7172 on 2023-04-19T17:31:45+08:00
 #
 # See https://fly.io/docs/reference/configuration/ for information about how to use this file.
 #
 
-app = "sparkling-snow-9519"
+app = "divine-cherry-7172"
 kill_signal = "SIGINT"
 kill_timeout = 5
 primary_region = "hkg"
@@ -12,7 +12,6 @@ processes = []
 [build]
 
 [env]
-  PORT = "8080"
 
 [experimental]
   auto_rollback = true
