@@ -2,7 +2,7 @@ const express = require('express')
 const routes = require('./routes')
 
 const app = express()
-const PORT = 3000
+const PORT = process.env.PORT || 3000
 
 const methodOverride = require('method-override')
 app.use(methodOverride('_method'))
@@ -28,7 +28,8 @@ app.use((req, res, next) => {
     next()
 })
 
-
+const path = require('path')
+app.use('/upload', express.static(path.join(__dirname, 'upload')))
 
 app.use(routes)
 

@@ -1,4 +1,5 @@
 const { Restaurant } = require('../models')
+const { localFileHandler } = require('../helpers/file-helpers')
 
 const adminController = {
     getRestaurants: (req, res, next) => {
@@ -14,12 +15,15 @@ const adminController = {
     postRestaurant: (req, res, next) => {
         if (!req.body.name) throw new Error('Restaurant name is required')
 
-        Restaurant.create({
-            name: req.body.name,
-            tel: req.body.tel,
-            address: req.body.address,
-            openingHours: req.body.openingHours,
-            description: req.body.description
+        localFileHandler(req.file).then(filePath => {
+            return Restaurant.create({
+                name: req.body.name,
+                tel: req.body.tel,
+                address: req.body.address,
+                openingHours: req.body.openingHours,
+                description: req.body.description,
+                image: filePath || null
+            })
         })
             .then(() => {
                 req.flash('success_msg', 'restaurant was successfully created')
@@ -48,8 +52,12 @@ const adminController = {
             .catch(err => next(err))
     },
     putRestaurant: (req, res, next) => {
-        Restaurant.findByPk(req.params.id)
-            .then(restaurant => {
+
+        Promise.all([
+            Restaurant.findByPk(req.params.id),
+            localFileHandler(req.file)
+        ])
+            .then(([restaurant, filePath]) => {
                 if (!restaurant) throw new Error("Restaurant didn't exist")
 
                 return restaurant.update({
@@ -57,7 +65,8 @@ const adminController = {
                     tel: req.body.tel,
                     address: req.body.address,
                     openingHours: req.body.openingHours,
-                    description: req.body.description
+                    description: req.body.description,
+                    image: filePath || restaurant.image
                 })
             })
             .then(() => {
