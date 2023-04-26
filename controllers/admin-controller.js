@@ -5,13 +5,18 @@ const adminController = {
     getRestaurants: (req, res, next) => {
         Restaurant.findAll({
             raw: true,
-            include: []
+            include: [Category],
+            nest: true
         })
             .then(restaurants => res.render('admin/restaurants', { restaurants: restaurants }))
             .catch(err => next(err))
     },
     createRestaurant: (req, res, next) => {
-        res.render('admin/create-restaurant')
+        Category.findAll({
+            raw: true
+        })
+            .then(categories => res.render('admin/create-restaurant', { categories }))
+            .catch(err => next(err))
     },
     postRestaurant: (req, res, next) => {
         if (!req.body.name) throw new Error('Restaurant name is required')
@@ -23,7 +28,8 @@ const adminController = {
                 address: req.body.address,
                 openingHours: req.body.openingHours,
                 description: req.body.description,
-                image: filePath || null
+                image: filePath || null,
+                categoryId: req.body.categoryId
             })
         })
             .then(() => {
@@ -34,7 +40,9 @@ const adminController = {
     },
     getRestaurant: (req, res, next) => {
         Restaurant.findByPk(req.params.id, {
-            raw: true
+            raw: true,
+            nest: true,
+            include: [Category]
         })
             .then(restaurant => {
                 if (!restaurant) throw new Error("Restaurant didn't exist")
@@ -48,6 +56,8 @@ const adminController = {
         })
             .then(restaurant => {
                 if (!restaurant) throw new Error("Restaurant didn't exist")
+
+
                 res.render('admin/edit-restaurant', { restaurant })
             })
             .catch(err => next(err))
