@@ -1,10 +1,11 @@
-const { Restaurant } = require('../models')
+const { Restaurant, User, Category } = require('../models')
 const { localFileHandler } = require('../helpers/file-helpers')
 
 const adminController = {
     getRestaurants: (req, res, next) => {
         Restaurant.findAll({
-            raw: true
+            raw: true,
+            include: []
         })
             .then(restaurants => res.render('admin/restaurants', { restaurants: restaurants }))
             .catch(err => next(err))
