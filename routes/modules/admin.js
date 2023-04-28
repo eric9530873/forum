@@ -4,6 +4,7 @@ const router = express.Router()
 const adminController = require('../../controllers/admin-controller')
 
 const upload = require('../../middleware/multer')
+const categoryController = require('../../controllers/category-controller')
 
 router.get('/restaurants/create', adminController.createRestaurant)
 router.get('/restaurants/:id', adminController.getRestaurant)
@@ -12,8 +13,11 @@ router.delete('/restaurants/:id', adminController.deleteRestaurant)
 router.get('/restaurants/:id/edit', adminController.editRestaurant)
 router.get('/restaurants', adminController.getRestaurants)
 router.post('/restaurants', upload.single('image'), adminController.postRestaurant)
+
 router.get('/users', adminController.getUsers)
 router.put('/users/:id', adminController.PutUsers)
+
+router.get('/categories', categoryController.getCategories)
 
 router.get('', (req, res) => { res.redirect('/admin/restaurants') })
 
