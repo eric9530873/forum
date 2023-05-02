@@ -17,7 +17,11 @@ router.post('/restaurants', upload.single('image'), adminController.postRestaura
 router.get('/users', adminController.getUsers)
 router.put('/users/:id', adminController.PutUsers)
 
+router.get('/categories/:id', categoryController.getCategories)
+router.put('/categories/:id', categoryController.putCategories)
+router.delete('/categories/:id', categoryController.deleteCategories)
 router.get('/categories', categoryController.getCategories)
+router.post('/categories', categoryController.postCategories)
 
 router.get('', (req, res) => { res.redirect('/admin/restaurants') })
 
