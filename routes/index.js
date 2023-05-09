@@ -6,6 +6,7 @@ const admin = require('../routes/modules/admin')
 
 const restaurantsController = require('../controllers/restaurants-controller')
 const userController = require('../controllers/user-controller')
+const commentController = require('../controllers/commet-controller')
 
 const { authenticated, authenticatedAdmin } = require('../middleware/auth')
 const { generalErrorHandler } = require('../middleware/error-handler')
@@ -27,6 +28,9 @@ router.get('/restaurants', authenticated, restaurantsController.getRestaurants)
 router.get('/', (req, res) => {
     res.redirect('/restaurants')
 })
+
+router.delete('/comments/:id', authenticated, commentController.deleteComment)
+router.post('/comments', authenticated, commentController.postComment)
 
 router.use('/', generalErrorHandler)
 
