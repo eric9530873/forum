@@ -1,5 +1,6 @@
 const db = require('../models')
-const { User } = db
+const { User, Restaurant, Comment } = db
+const { localFileHandler } = require('../helpers/file-helpers')
 const bcrypt = require('bcryptjs')
 
 const userController = {
@@ -40,7 +41,50 @@ const userController = {
             res.redirect('/signin')
         });
 
-    }
+    },
+    getUser: (req, res, next) => {
+        return User.findByPk(req.params.id, {
+            include: [
+                Comment
+            ]
+        })
+            .then(user => {
+                if (!user) throw new Error("User didn't exist!")
+
+                res.render('users/profile', {
+                    user
+                })
+            })
+            .catch(err => next(err))
+    },
+    editUser: (req, res, next) => {
+        User.findByPk(req.params.id)
+            .then(user => {
+                if (!user) throw new Error("User didn't exist")
+
+                res.render('users/edit', { user })
+            })
+            .catch(err => next(err))
+    },
+    putUser: (req, res, next) => {
+
+        Promise.all([
+            User.findByPk(req.params.id),
+            localFileHandler(req.file)
+        ])
+            .then(([user, filePath]) => {
+                if (!user) throw new Error("User didn't exist!")
+
+                return user.update({
+                    name: req.body.name,
+                    image: filePath || user.image
+                })
+            })
+            .then(() => {
+                res.redirect(`/users/${req.params.id}`)
+            })
+            .catch(err => next(err))
+    },
 }
 
 module.exports = userController

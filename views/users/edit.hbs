@@ -1,0 +1,12 @@
+<form action="/users/{{user.id}}?_method=PUT" method="POST" enctype="multipart/form-data">
+    <div class="form-row mb-3">
+        <label class="form-label" for="name">Name</label>
+        <input class="form-control" type="text" class="form-control" name="name" placeholder="Enter Name"
+            value="{{user.name}}">
+    </div>
+    <div class="form-row mb-3">
+        <label class="form-label" for="image">Image</label>
+        <input class="form-control" type="file" name="image" class="form-control-file">
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>
