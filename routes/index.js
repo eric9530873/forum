@@ -28,6 +28,7 @@ router.put('/users/:id', authenticated, upload.single('image'), userController.p
 
 router.get('/logout', userController.logout)
 
+router.get('/restaurants/feeds', authenticated, restaurantsController.getFeeds)
 router.get('/restaurants/:id/dashboard', authenticated, restaurantsController.getDashboard)
 router.get('/restaurants/:id', authenticated, restaurantsController.getRestaurant)
 router.get('/restaurants', authenticated, restaurantsController.getRestaurants)
@@ -39,7 +40,8 @@ router.get('/', (req, res) => {
 router.delete('/comments/:id', authenticated, commentController.deleteComment)
 router.post('/comments', authenticated, commentController.postComment)
 
-
+router.delete('/favorite/:id', authenticated, userController.removeFavorite)
+router.post('/favorite/:id', authenticated, userController.addFavorite)
 
 router.use('/', generalErrorHandler)
 
