@@ -13,9 +13,9 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
       User.hasMany(models.Comment, { foreignKey: 'userId' })
       User.belongsToMany(models.Restaurant, {
-        foreignKey: 'userId',
         through: models.Favorite,
-        as: 'FavoriteRestaurants'
+        foreignKey: 'userId',
+        as: 'FavoritedRestaurants'
       })
     }
   }

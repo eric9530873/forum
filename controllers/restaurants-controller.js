@@ -2,7 +2,7 @@ const { Restaurant, Category, Comment, User } = require('../models')
 const { getOffset, getPagination } = require('../helpers/pagination-helper')
 
 const restaurantsController = {
-    getRestaurants: (req, res) => {
+    getRestaurants: (req, res, next) => {
 
         const DEFAULT_LIMIT = 9
 
@@ -15,7 +15,7 @@ const restaurantsController = {
 
         // if (categoryId) where.categoryId = categoryId
 
-        Promise.all([
+        return Promise.all([
             Restaurant.findAndCountAll({
                 include: Category,
                 where: {
@@ -44,6 +44,7 @@ const restaurantsController = {
                     pagination: getPagination(limit, page, restaurants.count)
                 })
             })
+            .catch(err => next(err))
     },
     getRestaurant: (req, res, next) => {
         Restaurant.findByPk(req.params.id, {

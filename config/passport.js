@@ -30,12 +30,16 @@ passport.serializeUser(function (user, done) {
 });
 
 passport.deserializeUser(function (id, done) {
-    User.findByPk(id, {
-        inclued: [
+    return User.findByPk(id, {
+        include: [
             { model: Restaurant, as: 'FavoritedRestaurants' }
         ]
     })
-        .then(user => done(null, user.toJSON()))
+        .then(user => {
+            user = user.toJSON()
+            console.log(user)
+            return done(null, user)
+        })
         .catch(err => done(err))
 });
 
