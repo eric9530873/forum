@@ -43,6 +43,9 @@ router.post('/comments', authenticated, commentController.postComment)
 router.delete('/favorite/:id', authenticated, userController.removeFavorite)
 router.post('/favorite/:id', authenticated, userController.addFavorite)
 
+router.delete('/like/:id', authenticated, userController.removeLiked)
+router.post('/like/:id', authenticated, userController.addLiked)
+
 router.use('/', generalErrorHandler)
 
 module.exports = router

@@ -1,5 +1,5 @@
 const db = require('../models')
-const { User, Restaurant, Comment, Favorite } = db
+const { User, Restaurant, Comment, Favorite, Like } = db
 const { localFileHandler } = require('../helpers/file-helpers')
 const bcrypt = require('bcryptjs')
 
@@ -118,6 +118,43 @@ const userController = {
                 if (!favorite) throw new Error("You haven't favorited this restaurant")
 
                 return favorite.destroy()
+            })
+            .then(() => res.redirect('back'))
+            .catch(err => next(err))
+    },
+    addLiked: (req, res, next) => {
+        Promise.all([
+            Restaurant.findByPk(req.params.id),
+            Like.findOne({
+                where: {
+                    userId: req.user.id,
+                    restaurantId: req.params.id
+                }
+            })
+        ])
+            .then(([restaurant, like]) => {
+                if (!restaurant) throw new Error("Restaurant didn't exist")
+                if (like) throw new Error('You have favorited this restaurant')
+
+                return Like.create({
+                    userId: req.user.id,
+                    restaurantId: req.params.id
+                })
+            })
+            .then(() => res.redirect('back'))
+            .catch(err => next(err))
+    },
+    removeLiked: (req, res, next) => {
+        Like.findOne({
+            where: {
+                userId: req.user.id,
+                restaurantId: req.params.id
+            }
+        })
+            .then(like => {
+                if (!like) throw new Error("You haven't favorited this restaurant")
+
+                return like.destroy()
             })
             .then(() => res.redirect('back'))
             .catch(err => next(err))
