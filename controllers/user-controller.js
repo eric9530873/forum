@@ -158,6 +158,16 @@ const userController = {
             })
             .then(() => res.redirect('back'))
             .catch(err => next(err))
+    },
+    getTopUser: (req, res, next) => {
+        User.findAll({
+            include: [
+                { model: User, as: 'Followers' }
+            ]
+        })
+            .then(users => { 
+                
+            })
     }
 }
 
