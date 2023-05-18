@@ -33,10 +33,6 @@ router.get('/restaurants/:id/dashboard', authenticated, restaurantsController.ge
 router.get('/restaurants/:id', authenticated, restaurantsController.getRestaurant)
 router.get('/restaurants', authenticated, restaurantsController.getRestaurants)
 
-router.get('/', (req, res) => {
-    res.redirect('/restaurants')
-})
-
 router.delete('/comments/:id', authenticated, commentController.deleteComment)
 router.post('/comments', authenticated, commentController.postComment)
 
@@ -45,6 +41,14 @@ router.post('/favorite/:id', authenticated, userController.addFavorite)
 
 router.delete('/like/:id', authenticated, userController.removeLiked)
 router.post('/like/:id', authenticated, userController.addLiked)
+
+router.delete('/following/:id', authenticated, userController.removeFollowing)
+router.post('/following/:id', authenticated, userController.addFollowing)
+
+
+router.get('/', (req, res) => {
+    res.redirect('/restaurants')
+})
 
 router.use('/', generalErrorHandler)
 

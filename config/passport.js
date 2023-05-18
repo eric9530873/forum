@@ -40,7 +40,7 @@ passport.deserializeUser(function (id, done) {
     })
         .then(user => {
             user = user.toJSON()
-            console.log(user)
+            // console.log(user)
             return done(null, user)
         })
         .catch(err => done(err))
