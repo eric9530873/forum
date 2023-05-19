@@ -22,11 +22,21 @@
                     <li><strong>{{user.Followers.length}}</strong> followers (追隨者)</li>
                 </ul>
                 <p>
-                    {{#ifCond user.id user.id }}
+                    {{#if user.idMatch }}
                     <a href="/users/{{user.id}}/edit"><button type="submit" class="btn btn-primary">edit</button></a>
+                    {{else}}
+                    {{#if user.isFollowed}}
+                <form action="/following/{{user.id}}?_method=DELETE" method="POST" style="display: contents;">
+                    <button type="submit" class="btn btn-danger">取消追蹤</button>
+                </form>
+                {{else}}
+                <form action="/following/{{user.id}}" method="POST" style="display: contents;">
+                    <button type="submit" class="btn btn-primary">追蹤</button>
+                </form>
+                {{/if}}
 
 
-                    {{/ifCond}}
+                {{/if }}
                 </p>
             </div>
         </div>

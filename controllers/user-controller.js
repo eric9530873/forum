@@ -62,11 +62,12 @@ const userController = {
                     return acc
                 }, [])
 
+                user.idMatch = Number(user.id) === req.user.id || false
 
-                const isFollowed = user.Followings?.some(d => d.id === user.id)
+                user.isFollowed = req.user.Followings.some(f => f.id === user.id)
                 res.render('users/profile', {
                     user,
-                    isFollowed
+
                 })
             })
             .catch(err => next(err))
