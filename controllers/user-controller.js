@@ -62,6 +62,7 @@ const userController = {
                     return acc
                 }, [])
 
+
                 const isFollowed = user.Followings?.some(d => d.id === user.id)
                 res.render('users/profile', {
                     user,
@@ -80,6 +81,9 @@ const userController = {
             .catch(err => next(err))
     },
     putUser: (req, res, next) => {
+        if (Number(req.params.id) !== Number(req.user.id)) {
+            res.redirect(`/users/${req.params.id}`)
+        }
 
         Promise.all([
             User.findByPk(req.params.id),
