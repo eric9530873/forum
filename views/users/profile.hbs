@@ -15,21 +15,90 @@
                 <p class="card-text">
                     {{user.email}}
                 </p>
-
                 <ul class="list-unstyled list-inline">
-                    <li><strong>{{user.Comments.length}}</strong> 已評論餐廳</li>
-                    {{!-- <li><strong>{{user.FavoritedRestaurants.length}}</strong> 收藏的餐廳</li>
+                    <li><strong>{{user.commentedRestaurants.length}}</strong> 已評論餐廳</li>
+                    <li><strong>{{user.FavoritedRestaurants.length}}</strong> 收藏的餐廳</li>
                     <li><strong>{{user.Followings.length}}</strong> followings (追蹤者)</li>
-                    <li><strong>{{user.Followers.length}}</strong> followers (追隨者)</li> --}}
+                    <li><strong>{{user.Followers.length}}</strong> followers (追隨者)</li>
                 </ul>
-
                 <p>
                     {{#ifCond user.id user.id }}
                     <a href="/users/{{user.id}}/edit"><button type="submit" class="btn btn-primary">edit</button></a>
-                    {{else}}
+                    
 
                     {{/ifCond}}
                 </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-header">
+                <strong>{{user.Followings.length}}</strong> followings (追蹤者)
+            </div>
+            <div class="card-body">
+                {{#each user.Followings}}
+                <a href="/users/{{this.id}}" class="text-decoration-none">
+                    {{#if this.image}}
+                    <img src="{{this.image}}" width="60" height="60" class="avatar"
+                        style="transition: opacity 0.5s; opacity:0;" onload="this.style.opacity=1;" />
+                    {{else}}
+                    <img src="https://via.placeholder.com/60" width="60" height="60" class="avatar"
+                        style="transition: opacity 0.5s; opacity:0;" onload="this.style.opacity=1;" />
+                    {{/if}}
+                </a>
+                {{/each}}
+            </div>
+        </div>
+        <br />
+        <div class="card">
+            <div class="card-header">
+                <strong>{{user.Followers.length}}</strong> followers (追隨者)
+            </div>
+            <div class="card-body">
+                {{#each user.Followers}}
+                <a href="/users/{{this.id}}" class="text-decoration-none">
+                    {{#if this.image}}
+                    <img src="{{this.image}}" width="60" height="60" class="avatar"
+                        style="transition: opacity 0.5s; opacity:0;" onload="this.style.opacity=1;" />
+                    {{else}}
+                    <img src="https://via.placeholder.com/60" width="60" height="60" class="avatar"
+                        style="transition: opacity 0.5s; opacity:0;" onload="this.style.opacity=1;" />
+                    {{/if}}
+                </a>
+                {{/each}}
+            </div>
+        </div>
+    </div>
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header">
+                <strong>{{user.commentedRestaurants.length}}</strong> 已評論餐廳
+            </div>
+            <div class="card-body">
+                {{#each user.commentedRestaurants}}
+                <a href="/restaurants/{{this.id}}" class="text-decoration-none">
+                    <img src={{this.image}} width="60" height="60" class="avatar"
+                        style="transition: opacity 0.5s; opacity:0;" onload="this.style.opacity=1;" />
+                </a>
+                {{/each}}
+            </div>
+        </div>
+        <br />
+        <div class="card">
+            <div class="card-header">
+                <strong>{{user.FavoritedRestaurants.length}}</strong> 收藏的餐廳
+            </div>
+            <div class="card-body">
+                {{#each user.FavoritedRestaurants}}
+                <a href="/restaurants/{{this.id}}" class="text-decoration-none">
+                    <img src="{{this.image}}" width="60" height="60" class="avatar"
+                        style="transition: opacity 0.5s; opacity:0;" onload="this.style.opacity=1;" />
+                </a>
+                {{/each}}
             </div>
         </div>
     </div>

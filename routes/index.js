@@ -29,6 +29,7 @@ router.put('/users/:id', authenticated, upload.single('image'), userController.p
 router.get('/logout', userController.logout)
 
 router.get('/restaurants/feeds', authenticated, restaurantsController.getFeeds)
+router.get('/restaurants/top', authenticated, restaurantsController.getTopRestaurants)
 router.get('/restaurants/:id/dashboard', authenticated, restaurantsController.getDashboard)
 router.get('/restaurants/:id', authenticated, restaurantsController.getRestaurant)
 router.get('/restaurants', authenticated, restaurantsController.getRestaurants)
